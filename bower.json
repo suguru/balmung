@@ -1,0 +1,26 @@
+{
+  "name": "balmung",
+  "version": "0.0.0",
+  "dependencies": {
+    "lodash": "2.4.1",
+    "bootstrap": "3.0.3",
+    "angular": "1.2.7",
+    "angular-route": "1.2.7",
+    "angular-cookies": "1.2.7",
+    "angular-animate": "1.2.7",
+    "angular-bootstrap": "0.9.0",
+    "angular-growl": "0.4.0"
+  },
+  "exportsOverride": {
+    "bootstrap": {
+      "css": "dist/css/bootstrap.css",
+      "fonts": "dist/fonts/*"
+    },
+    "jquery": {
+      ".": [
+        "jquery.min.js",
+        "jquery.min.map"
+      ]
+    }
+  }
+}

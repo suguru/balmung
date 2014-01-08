@@ -1,0 +1,36 @@
+{
+  "name": "balmung",
+  "version": "0.0.0",
+  "description": "Web tools for optimizing images",
+  "main": "balmung.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Suguru Namura (https://github.com/suguru/)",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "~2.4.1",
+    "async": "~0.2.9",
+    "commander": "~2.1.0",
+    "express": "~3.4.7",
+    "jade": "~1.0.2",
+    "optipng-bin": "~0.3.1",
+    "jpegtran-bin": "~0.2.2",
+    "pngquant-bin": "~0.1.5",
+    "gifsicle": "~0.1.4",
+    "spritesmith": "~0.17.1",
+    "socket.io": "~0.9.16",
+    "image-size": "~0.1.16",
+    "proteus-logger": "~1.1.9",
+    "imagemagick": "~0.1.3",
+    "mkdirp": "~0.3.5",
+    "node-zopfli": "~1.0.3"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-stylus": "~0.11.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-express-server": "~0.4.11",
+    "grunt-bower-task": "~0.3.4"
+  }
+}

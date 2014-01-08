@@ -1,0 +1,32 @@
+
+.modal-header.balmung-preview-header
+  h5 {{file.path}}
+  .background-changer
+    .btn-group
+      button.btn.btn-sm.btn-primary(ng-click='bgchange("/img/mesh.png")') Mesh
+    .btn-group
+      button.btn.btn-sm.btn-primary(ng-click='bgchange("white")') White
+      button.btn.btn-sm.btn-primary(ng-click='bgchange("gray")') Gray
+      button.btn.btn-sm.btn-primary(ng-click='bgchange("black")') Black
+      button.btn.btn-sm.btn-primary(ng-click='bgchange("red")') Red
+      button.btn.btn-sm.btn-primary(ng-click='bgchange("green")') Green
+      button.btn.btn-sm.btn-primary(ng-click='bgchange("blue")') Blue
+.modal-body.balmung-preview-body(balmung-preview)
+  .row
+    .col-xs-5.left
+      .size {{work.size | number}} bytes
+    .col-xs-2.center
+      .arrow
+        span.glyphicon.glyphicon-arrow-right
+      .compress {{dst.compress | percentage}}
+    .col-xs-5.right
+      .size {{dst.size | number}} bytes
+  .row.images
+    .col-xs-6.work
+      .image
+    .col-xs-6.dst
+      .image
+    
+.modal-footer
+  button.btn.btn-default(ng-click='cancel()') Close
+

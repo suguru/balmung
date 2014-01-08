@@ -1,0 +1,47 @@
+div#browse
+
+  ol.breadcrumb
+    li
+      a(ng-click='selectDir("/")') root
+    li(ng-repeat='p in paths')
+      a(ng-bind='p.label', ng-click='selectDir(p.path)')
+
+  table.table.table-hover
+    thead
+      tr
+        th.icon
+        th.name Name
+        th.options Options
+    tbody
+      tr(ng-repeat='dir in dirs', ng-click='selectDir(path + "/" + dir)')
+        td.icon
+          span.glyphicon.glyphicon-folder-close
+        td.name
+          span(ng-bind='dir')
+        td.options
+
+  table.table.table-hover
+    thead
+      tr
+        th.icon
+        th.status
+        th.name Name
+        th.bounds Size
+        th.size(ng-repeat='ratio in ratios', ng-bind='ratio.toFixed(1)')
+    tbody
+      tr(ng-repeat='file in files', balmung-file-row)
+        td.icon
+          span.glyphicon.glyphicon-picture
+        td.status
+          span.glyphicon
+        td.name
+          span(ng-bind='file.name')
+        td.bounds
+          span(ng-bind='file.width')
+          span x
+          span(ng-bind='file.height')
+        td.size(ng-repeat='ratio in ratios', balmung-size-column)
+          span.bytes
+          span.compress.label(ng-click='confirm(file, ratio)')
+          span.control
+            span.glyphicon.glyphicon-eye-open(ng-click='preview()')

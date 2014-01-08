@@ -5,7 +5,6 @@ var fs = require('fs');
 var express = require('express');
 var program = require('commander');
 var _ = require('lodash');
-var io = require('socket.io');
 var loggers = require('proteus-logger');
 var pkginfo = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
@@ -25,13 +24,12 @@ if (program.config) {
 // configure logger
 loggers.configure(config.logger);
 
-var port = program.port || 7000;
+var port = program.port || 7700;
 var app = express();
 
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 app.set('config', config);
-app.set('io', io);
 
 app.use(express.cookieParser());
 app.use(express.json());
@@ -50,11 +48,9 @@ require('./lib/init')(app, function(err) {
   if (err) {
     loggers.get().error(err.stack);
   } else {
-    var server = app.listen(port, function() {
+    app.listen(port, function() {
       loggers.get().info('Balmung started at', { port: port });
     });
-
-    io.listen(server);
   }
 });
 

@@ -41,10 +41,29 @@
   .compress, .center
     text-align center
   .images
-    padding 10px 0
+    padding 10px
+    margin 0 -20px
     background-image url(/img/mesh.png)
     background-repeat repeat
-    margin-right -20px
-    margin-left -20px
-  .work, .left
+    text-align center
+    cursor pointer
+    img:first-child
+      margin-right 10px
+  .zoomer
+    position absolute
+    margin 0 -20px
+    padding 10px
+    text-align center
+  .left, .work
     text-align right
+  .bytes
+    .value
+      font-weight bold
+      font-size 18px
+    .unit
+      font-size 14px
+.zoomed
+  position absolute
+  z-index 10000
+  top 0px
+  left 0px

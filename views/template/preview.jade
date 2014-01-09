@@ -14,19 +14,19 @@
 .modal-body.balmung-preview-body(balmung-preview)
   .row
     .col-xs-5.left
-      .size {{work.size | number}} bytes
+      .bytes
+        span.value {{work.size | number}}
+        span.unit  bytes
     .col-xs-2.center
       .arrow
         span.glyphicon.glyphicon-arrow-right
       .compress {{dst.compress | percentage}}
     .col-xs-5.right
-      .size {{dst.size | number}} bytes
-  .row.images
-    .col-xs-6.work
-      .image
-    .col-xs-6.dst
-      .image
+      .bytes
+        span.value {{dst.size | number}}
+        span.unit  bytes
+  .zoomer
+  .images
     
 .modal-footer
   button.btn.btn-default(ng-click='cancel()') Close
-

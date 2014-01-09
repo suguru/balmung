@@ -12,5 +12,10 @@
 .balmung-preview-header .background-changer{text-align:center;}
 .balmung-preview-header .background-changer .btn-group{padding:0 2px}
 .balmung-preview-body .compress,.balmung-preview-body .center{text-align:center}
-.balmung-preview-body .images{padding:10px 0;background-image:url("/img/mesh.png");background-repeat:repeat;margin-right:-20px;margin-left:-20px}
-.balmung-preview-body .work,.balmung-preview-body .left{text-align:right}
+.balmung-preview-body .images{padding:10px;margin:0 -20px;background-image:url("/img/mesh.png");background-repeat:repeat;text-align:center;cursor:pointer;}
+.balmung-preview-body .images img:first-child{margin-right:10px}
+.balmung-preview-body .zoomer{position:absolute;margin:0 -20px;padding:10px;text-align:center}
+.balmung-preview-body .left,.balmung-preview-body .work{text-align:right}
+.balmung-preview-body .bytes .value{font-weight:bold;font-size:18px}
+.balmung-preview-body .bytes .unit{font-size:14px}
+.zoomed{position:absolute;z-index:10000;top:0;left:0}

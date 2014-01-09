@@ -1,4 +1,4 @@
-/* global angular,_ */
+/* global angular */
 'use strict';
 angular
 .module('balmung')
@@ -47,33 +47,67 @@ angular
 .directive('balmungPreview', function(pixelRatio) {
   return function(scope, element) {
 
+    var floor = Math.floor;
+    var max = Math.max;
+    var min = Math.min;
+
     var file = scope.file;
     var ratio = scope.ratio;
     var work = file.work[ratio];
     var dst = file.dst[ratio];
+    var winw = window.innerWidth - 40;
+    var wh = work.height / work.width;
+    var pad = 10;
+    var imgw = min(floor(winw / 2), floor(work.width / pixelRatio));
+    var imgh = floor(imgw * wh);
+    var imgRatio = work.width / imgw;
 
-    var width = Math.floor((work.width + dst.width) / pixelRatio) + 80;
-    width = Math.max(width, 550);
+    var workimg = new Image();
+    workimg.src = '/content/work/' + work.path;
+    if (imgw < work.width) {
+      workimg.style.width = imgw + 'px';
+    }
 
-    var elem = element.parent().parent();
-    elem.width(width);
+    var dstimg = new Image();
+    dstimg.src = '/content/dst/' + dst.path;
+    if (imgw < dst.width) {
+      dstimg.style.width = imgw + 'px';
+    }
 
-    var imgw = Math.floor(work.width / pixelRatio);
+    element
+    .parent().parent()
+    .width(max(imgw*2 + 32, 550));
 
-    var workimg = $('<img />')
-    .attr('src', '/content/work/' + work.path)
-    .attr('width',  imgw)
-    .on('click', function() {
-      window.open('/content/work/' + work.path, '_blank');
-    });
+    var canvas = document.createElement('canvas');
+    canvas.width  = floor((imgw * 2 + pad) * pixelRatio);
+    canvas.height = floor(max(300, imgh) * pixelRatio);
+    if (pixelRatio > 1) {
+      canvas.style.width  = floor(imgw * 2 + pad) + 'px';
+      canvas.style.height = max(300, imgh) + 'px';
+    }
+    var canvasMargin = 0;
+    if (floor(imgw*2+pad) < 550) {
+      canvasMargin = floor((550 - imgw * 2 - pad) / 2) - 10;
+      canvas.style.marginLeft = canvasMargin + 'px';
+    }
 
-    var dstimg = $('<img />')
-    .attr('src', '/content/dst/' + dst.path)
-    .attr('width',  imgw)
-    .on('click', function() {
-      window.open('/content/dst/' + dst.path, '_blank');
-    });
+    var zoomed = document.createElement('canvas');
+    zoomed.setAttribute('class', 'zoomed');
+    zoomed.width  = 400 * pixelRatio;
+    zoomed.height = 200 * pixelRatio;
+    if (pixelRatio > 1) {
+      zoomed.style.width = '400px';
+      zoomed.style.height = '200px';
+    }
 
+    var images = element.find('.images');
+
+    images
+    .append(workimg)
+    .append(dstimg)
+    ;
+
+    scope.bgcolor = 'mesh';
     scope.bgchange = function(color) {
       if (color.charAt(0) === '/') {
         element.find('.images')
@@ -85,11 +119,129 @@ angular
         .css('backgroundImage', 'none')
         ;
       }
+      scope.bgcolor = color;
     };
 
-    element.find('.work .image').append(workimg);
-    element.find('.dst .image').append(dstimg);
+    var mesh = new Image();
+    mesh.src = '/img/mesh.png';
 
+    var clean = function() {
+      $('body').off('mousemove.zoomer');
+      canvas.width = canvas.width;
+      // context.clearRect(0, 0, canvas.width, canvas.height);
+      zoomed.remove();
+    };
+
+    element
+    .find('.zoomer')
+    .width(imgw * 2 + pad)
+    .append(canvas)
+    .on('mouseenter', function() {
+
+      var lens = {
+        width: min(50, imgw),
+        height: min(50, imgh),
+        x: 0,
+        y: 0
+      };
+
+      element.find('.zoomer').append(zoomed);
+
+      var context = canvas.getContext('2d');
+      var meshes = context.createPattern(mesh, 'repeat');
+
+      $('body')
+      .on('mousemove.zoomer', function(e) {
+
+        if ($('body').find('.balmung-preview-body').length === 0) {
+          return clean();
+        }
+
+        var offset = $(canvas).offset();
+        var x = floor(e.pageX - offset.left) - pad;
+        var y = floor(e.pageY - offset.top) - pad;
+        var isLeft = true;
+        // right side image
+        if (x > imgw + pad) {
+          x = x - imgw - pad;
+          isLeft = false;
+        }
+
+        var lx = x - floor(lens.width  / 2);
+        var ly = y - floor(lens.height / 2);
+
+        // lens position
+        lens.x = max(0, min(imgw - lens.width , lx));
+        lens.y = max(0, min(imgh - lens.height, ly));
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // draw selected area
+        context.save();
+        context.scale(pixelRatio, pixelRatio);
+
+        context.fillStyle = 'rgba(255,255,255,0.3)';
+        context.fillRect(0, 0, imgw, imgh);
+        context.fillRect(imgw + pad, 0, imgw, imgh);
+
+        context.globalCompositeOperation = 'destination-out';
+        context.fillStyle = '#fff';
+        context.fillRect(lens.x, lens.y, lens.width, lens.height);
+        context.fillRect(lens.x + imgw + pad, lens.y, lens.width, lens.height);
+
+        context.restore();
+
+        // draw zoomed images
+        var zoomContext = zoomed.getContext('2d');
+        zoomed.width = zoomed.width;
+        zoomContext.save();
+        zoomContext.scale(pixelRatio, pixelRatio);
+        if (scope.bgcolor === 'mesh') {
+          zoomContext.fillStyle = meshes;
+        } else {
+          zoomContext.fillStyle = scope.bgcolor;
+        }
+        zoomContext.fillRect(0, 0, zoomed.width, zoomed.height);
+        // if (y > imgh / 2) {
+        zoomContext.drawImage(
+          workimg,
+          floor(lens.x * imgRatio),
+          floor(lens.y * imgRatio),
+          floor(lens.width * imgRatio),
+          floor(lens.height * imgRatio),
+          0,
+          0,
+          lens.width * 4,
+          lens.height * 4
+        );
+        // }
+        zoomContext.drawImage(
+          dstimg,
+          floor(lens.x * imgRatio),
+          floor(lens.y * imgRatio),
+          floor(lens.width * imgRatio),
+          floor(lens.height * imgRatio),
+          200,
+          0,
+          lens.width * 4,
+          lens.height * 4
+        );
+
+        zoomed.style.top  = lens.y + 80 + 'px';
+        if (isLeft) {
+          zoomed.style.left = canvasMargin + lens.x - 165 + 'px';
+        } else {
+          zoomed.style.left = canvasMargin + lens.x - 165 + imgw + pad + 'px';
+        }
+
+        context.restore();
+
+      });
+    })
+    .on('mouseleave', function() {
+      clean();
+    })
+    ;
   };
 })
 ;

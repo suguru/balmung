@@ -113,13 +113,15 @@ angular
         element.find('.images')
         .css('backgroundColor', 'transparent')
         .css('backgroundImage', 'url(' + color + ')');
+        // TODO detect file
+        scope.bgcolor = 'mesh';
       } else {
         element.find('.images')
         .css('backgroundColor', color)
         .css('backgroundImage', 'none')
         ;
+        scope.bgcolor = color;
       }
-      scope.bgcolor = color;
     };
 
     var mesh = new Image();

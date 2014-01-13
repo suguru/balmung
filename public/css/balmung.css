@@ -7,6 +7,20 @@
 #browse table td.size .control{margin:0 0 0 4px;}
 #browse table td.size .control .glyphicon{margin:0 0 0 4px}
 .breadcrumb li a{cursor:pointer}
+.settings .title{color:#000}
+.settings .head{float:left;}
+.settings .head .title{font-size:11px;font-weight:bold;margin-right:10px}
+.settings .setting{float:left;padding-right:2px;}
+.settings .setting .label{border:1px solid #666;border-radius:0;cursor:pointer;}
+.settings .setting .label .value{color:#933;margin-left:4px;font-size:12px;text-decoration:underline}
+.settings .setting .label-param{color:#333;background:#fff;border-left:none;}
+.settings .setting .label-param .tooltip{margin-left:-54px;opacity:1;}
+.settings .setting .label-param .tooltip form{padding:4px}
+.settings .setting .label-param .tooltip input[type="number"]{width:60px;margin-left:20px;padding:0 8px;text-align:center}
+.settings .setting .label-param .tooltip input[type="range"]{width:100px;margin-top:8px}
+.settings .setting .label:first-child{border-top-left-radius:3px;border-bottom-left-radius:3px}
+.settings .setting .label:last-child{border-top-right-radius:3px;border-bottom-right-radius:3px}
+.settings .control .glyphicon{padding:3px;cursor:pointer}
 .table-hover td{cursor:pointer}
 .balmung-preview-header h5{text-align:center}
 .balmung-preview-header .background-changer{text-align:center;}
@@ -19,3 +33,7 @@
 .balmung-preview-body .bytes .value{font-weight:bold;font-size:18px}
 .balmung-preview-body .bytes .unit{font-size:14px}
 .zoomed{position:absolute;z-index:10000;top:0;left:0}
+.growl{position:fixed;top:60px;right:10px;float:right;width:350px}
+.growl-item.ng-enter,.growl-item.ng-leave{-webkit-transition:.2s linear all;-moz-transition:.2s linear all;-o-transition:.2s linear all;transition:.2s linear all}
+.growl-item.ng-enter,.growl-item.ng-leave.ng-leave-active{opacity:0}
+.growl-item.ng-leave,.growl-item.ng-enter.ng-enter-active{opacity:1}

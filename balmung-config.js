@@ -12,6 +12,8 @@ module.exports = {
   work: './content/work',
   // Destination directory to write final files
   dst: './content/dst',
+  // Settings to be written
+  settings: './content/balmung-settings.json',
 
   // resize default
   resize: {

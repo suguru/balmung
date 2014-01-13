@@ -22,5 +22,38 @@ angular
     });
   };
 })
+.service('settingService', function($http) {
+
+  return {
+    save: function(path, settings, callback) {
+      $http
+      .post('/api/settings/save', { path: path, settings: settings })
+      .success(function(data) {
+        callback(null, data);
+      })
+      .error(function(err) {
+        callback(new Error(err));
+      })
+      ;
+    },
+    load: function(path, callback) {
+      $http
+      .post('/api/settings/get', { path: path })
+      .success(function(data) {
+        callback(null, data);
+      })
+      .error(function(err) {
+        callback(new Error(err));
+      });
+    }
+  };
+
+})
+.service('optimizeService', function($http) {
+
+  return {
+  };
+
+})
 ;
 

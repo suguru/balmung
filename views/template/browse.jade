@@ -6,6 +6,8 @@ div#browse
     li(ng-repeat='p in paths')
       a(ng-bind='p.label', ng-click='selectDir(p.path)')
 
+  div.well.well-sm(balmung-setting)
+
   table.table.table-hover
     thead
       tr
@@ -42,6 +44,6 @@ div#browse
           span(ng-bind='file.height')
         td.size(ng-repeat='ratio in ratios', balmung-size-column)
           span.bytes
-          span.compress.label(ng-click='confirm(file, ratio)')
+          span.compress.label
           span.control
             span.glyphicon.glyphicon-eye-open(ng-click='preview()')

@@ -1,7 +1,7 @@
 /* global angular */
 'use strict';
 angular
-.module('balmung', ['ngRoute','ui.bootstrap'])
+.module('balmung', ['ngRoute','ngAnimate','ui.bootstrap','angular-growl'])
 .config(function($routeProvider) {
 
   $routeProvider
@@ -40,7 +40,7 @@ angular
   });
 
 })
-.controller('BalmungBrowseCtrl', function($scope, $http, $routeParams, $location) {
+.controller('BalmungBrowseCtrl', function($scope, $http, $routeParams, $location, growl) {
 
   var dir = $routeParams.dir || '';
 
@@ -58,9 +58,11 @@ angular
       });
       p += '/';
     });
+
     $scope.dirs = data.dirs;
     $scope.files = data.files;
     $scope.ratios = data.ratios;
+    $scope.settings = data.settings;
   })
   .error(function(data, status) {
     // show error on display
@@ -69,6 +71,18 @@ angular
 
   $scope.selectDir = function(dir) {
     $location.path('browse').search({ dir: dir });
+  };
+
+  $scope.optimize = function() {
+
+    $http
+    .post('/api/optimize/dir', { path: dir })
+    .success(function(data) {
+      growl.addInfoMessage('Start optimizing ' + dir, { ttl: 3000 });
+    })
+    .error(function(err) {
+        growl.addErrorMessage('Failed to start optimizing ' + dir + ' ' + err, { ttl: 3000 });
+    });
   };
 
 })

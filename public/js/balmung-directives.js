@@ -2,7 +2,125 @@
 'use strict';
 angular
 .module('balmung')
-.directive('balmungLastClass', function() {
+.directive('balmungSetting', function() {
+  return {
+    restrict: 'A',
+    templateUrl: '/template/setting.html'
+  };
+})
+.directive('balmungSlider', function($compile) {
+
+  var tooltipTemplate =
+    '<div class="tooltip bottom">' +
+    '<div class="tooltip-arrow"/>' +
+    '<div class="tooltip-inner">' +
+    '<form role="form">' +
+    '<input class="form-control input-sm" type="number" ng-model="value" />' +
+    '<input type="range" ng-model="value" min="{{min}}" max="{{max}}" />' +
+    '</form>' +
+    '</div>' +
+    '</div>';
+
+  return {
+    restrict: 'A',
+    scope: {
+      min: '@',
+      max: '@',
+      name: '@',
+      setting: '=',
+      settings: '=',
+      path: '='
+    },
+    template: '<span class="name" ng-bind="name | uppercase" ng-click="toggle()" /><span class="value" ng-bind="value" />',
+    controller: function($scope, $element, settingService, growl) {
+
+      Object.defineProperty($scope, 'value', {
+        set: function(value) {
+          $scope.setting[$scope.name] = Number(value);
+        },
+        get: function() {
+          return Number($scope.setting[$scope.name]);
+        }
+      });
+
+      $element.on('click', function() {
+
+        if ($element._tooltip) {
+          return;
+        }
+
+        var compiled = $compile(tooltipTemplate);
+        var tooltip = compiled($scope);
+        $scope.$apply(tooltip);
+
+        tooltip.on('click', function(e) {
+          e.stopPropagation();
+        });
+
+        $element._tooltip = tooltip;
+        $element.append(tooltip);
+
+        var offset = $element.find('.value').offset();
+        tooltip.css('left', offset.left);
+
+        setTimeout(function() {
+          $('body').on('click.balmung-slider', function() {
+            $(this).off('click.balmung-slider');
+            tooltip.remove();
+            delete $element._tooltip;
+            settingService.save($scope.path, $scope.settings, function(err) {
+              if (err) {
+                growl.addErrorMessage(err.message);
+              } else {
+              }
+            });
+          });
+        }, 1);
+      });
+    }
+  };
+})
+.directive('balmungOptimizeToggle', function() {
+  return {
+    restrict: 'A',
+    controller: function($scope, $element, $attrs) {
+
+      var setting = $scope.settings[$attrs.name];
+      $element.text($attrs.name.toUpperCase());
+
+      var siblings = $element.siblings();
+
+      var enable = function() {
+        delete setting.disabled;
+        $element
+        .removeClass('label-default')
+        .addClass('label-primary')
+        .parent()
+        .append(siblings)
+        ;
+      };
+
+      var disable = function() {
+        setting.disabled = true;
+        $element
+        .removeClass('label-primary')
+        .addClass('label-default')
+        ;
+        siblings.detach();
+      };
+
+      if (setting.disbled) {
+        disable();
+      }
+      $element.on('click', function() {
+        if (setting.disabled) {
+          enable();
+        } else {
+          disable();
+        }
+      });
+    }
+  };
 })
 .directive('balmungFileRow', function() {
   return function(scope, element) {

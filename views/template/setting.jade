@@ -1,0 +1,20 @@
+.settings.row
+  .col-xs-12(ng-if='settings')
+    .head
+      span.title SETTINGS
+    .setting
+      .label.label-primary(balmung-optimize-toggle name='optipng')
+      .label.label-param(balmung-slider setting='settings.optipng' min=0 max=7 path='path' settings='settings' name='level')
+    .setting
+      .label.label-primary(balmung-optimize-toggle name='pngquant')
+      .label.label-param(balmung-slider min=1 max=10 path='path' setting='settings.pngquant' settings='settings' name='speed') 
+      .label.label-param(balmung-slider min=2 max=256 path='path' setting='settings.pngquant' settings='settings' name='color')
+    .setting
+      .label.label-primary(balmung-optimize-toggle name='zopfli')
+    .setting
+      .label.label-success(balmung-optimize-toggle name='jpegtran')
+    .setting
+      .label.label-warning(balmung-optimize-toggle name='gifsicle')
+      .label.label-param(balmung-slider min=1 max=3 path='path' setting='settings.gifsicle' settings='settings' name='level')
+    .control
+      .glyphicon.glyphicon-repeat(tooltip='Optimize' ng-click='optimize()')

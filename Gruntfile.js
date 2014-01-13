@@ -30,7 +30,7 @@ module.exports = function (grunt) {
         options: {
           targetDir: './public/components',
           layout: 'byComponent',
-          // cleanTargetDir: true,
+          cleanTargetDir: true,
           bowerOptions: {
             production: true
           }

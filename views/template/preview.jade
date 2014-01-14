@@ -12,6 +12,9 @@
       button.btn.btn-sm.btn-primary(ng-click='bgchange("green")') Green
       button.btn.btn-sm.btn-primary(ng-click='bgchange("blue")') Blue
 .modal-body.balmung-preview-body(balmung-preview)
+  .row(ng-if='settings')
+    .well.well-sm(balmung-setting, settings='settings', path='file.path')
+
   .row
     .col-xs-5.left
       .bytes
@@ -20,13 +23,13 @@
     .col-xs-2.center
       .arrow
         span.glyphicon.glyphicon-arrow-right
-      .compress {{dst.compress | percentage}}
+        span.glyphicon.glyphicon-repeat.spin(ng-if='optimizing')
+      .compress {{(1 - dst.size / work.size) | percentage}}
     .col-xs-5.right
       .bytes
         span.value {{dst.size | number}}
         span.unit  bytes
   .zoomer
   .images
-    
 .modal-footer
   button.btn.btn-default(ng-click='cancel()') Close

@@ -17,4 +17,4 @@
       .label.label-warning(balmung-optimize-toggle name='gifsicle')
       .label.label-param(balmung-slider min=1 max=3 path='path' setting='settings.gifsicle' settings='settings' name='level')
     .control
-      .glyphicon.glyphicon-repeat(tooltip='Optimize' ng-click='optimize()')
+      .glyphicon.glyphicon-repeat(ng-if='optimizeIcon' tooltip='Optimize' ng-click='optimize()')

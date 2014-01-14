@@ -2,7 +2,7 @@
 'use strict';
 angular
 .module('balmung')
-.service('preview', function($modal) {
+.service('preview', function($modal, settingService, growl) {
 
   return function(file, ratio, work, dst) {
 
@@ -18,6 +18,13 @@ angular
         $scope.cancel = function() {
           $modalInstance.dismiss('cancel');
         };
+        settingService.load(file.path, function(err, settings) {
+          if (err) {
+            growl.addErrorMessage(err.message);
+          } else {
+            $scope.settings = settings;
+          }
+        });
       }
     });
   };
@@ -45,7 +52,7 @@ angular
   };
 
 })
-.service('settingService', function($http) {
+.service('settingService', function($http, optimizeService) {
 
   return {
     save: function(path, settings, callback) {
@@ -53,6 +60,15 @@ angular
       .post('/api/settings/save', { path: path, settings: settings })
       .success(function(data) {
         callback(null, data);
+
+        // optiize immediate if target is file
+        var extmatch = /\.[a-z0-9]+$/i.exec(path);
+        if (extmatch && extmatch[0]) {
+          var ext = extmatch[0].toLowerCase();
+          if (ext === '.png' || ext === '.jpg' || ext === '.gif') {
+            optimizeService.file(path);
+          }
+        }
       })
       .error(function(err) {
         callback(new Error(err));
@@ -61,7 +77,7 @@ angular
     },
     load: function(path, callback) {
       $http
-      .post('/api/settings/get', { path: path })
+      .post('/api/settings/load', { path: path })
       .success(function(data) {
         callback(null, data);
       })
@@ -74,15 +90,27 @@ angular
 })
 .service('optimizeService', function($http, growl) {
 
-  return function(path) {
-    $http
-    .post('/api/optimize/dir', { path: path })
-    .success(function() {
-      growl.addInfoMessage('Start optimizing ' + path, { ttl: 3000 });
-    })
-    .error(function(err) {
-      growl.addErrorMessage('Failed to start optimizing ' + path + ' ' + err, { ttl: 3000 });
-    });
+  return {
+    dir: function(path) {
+      $http
+      .post('/api/optimize/dir', { path: path })
+      .success(function() {
+        growl.addInfoMessage('Start optimizing ' + path, { ttl: 3000 });
+      })
+      .error(function(err) {
+        growl.addErrorMessage('Failed to start optimizing ' + path + ' ' + err, { ttl: 3000 });
+      });
+    },
+    file: function(path, ratio) {
+      $http
+      .post('/api/optimize/file', { path: path, ratio: ratio })
+      .success(function() {
+        growl.addInfoMessage('Start optimizing file ' + path, { ttl: 3000 });
+      })
+      .error(function(err) {
+        growl.addErrorMessage('Failed to start optimizing ' + path + ' ' + err, { ttl: 3000 });
+      });
+    }
   };
 
 })

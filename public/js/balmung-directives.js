@@ -8,17 +8,18 @@ angular
     scope: {
       title: '@',
       settings: '=',
-      path: '='
+      path: '=',
+      optimizeIcon: '='
     },
     controller: function($scope, optimizeService) {
       $scope.optimize = function() {
-        optimizeService($scope.path);
+        optimizeService.dir($scope.path);
       };
     },
     templateUrl: '/template/setting.html'
   };
 })
-.directive('balmungFileRow', function(socket) {
+.directive('balmungFileRow', function(socket, optimizeService) {
   return function(scope) {
     var file = scope.file;
     socket.on(scope, 'optimize', function(data) {
@@ -41,6 +42,9 @@ angular
         scope.$digest();
       }
     });
+    scope.optimize = function() {
+      optimizeService.file(file.path);
+    };
   };
 })
 .directive('balmungSlider', function($compile) {
@@ -67,7 +71,7 @@ angular
       path: '='
     },
     template: '<span class="name" ng-bind="name | uppercase" ng-click="toggle()" /><span class="value" ng-bind="value" />',
-    controller: function($scope, $element, settingService, growl) {
+    controller: function($scope, $element, settingService, optimizeService, growl) {
 
       Object.defineProperty($scope, 'value', {
         set: function(value) {
@@ -200,9 +204,9 @@ angular
     socket.on(scope, 'optimize', function(data) {
       if (dst.path === data.dir + '/' + data.file) {
         if (data.type === 'start') {
-          element.find('.flag').addClass('glyphicon-asterisk');
+          element.find('.flag').addClass('glyphicon-asterisk spin');
         } else {
-          element.find('.flag').removeClass('glyphicon-asterisk');
+          element.find('.flag').removeClass('glyphicon-asterisk spin');
           if (data.result) {
             apply(data.result.size.origin, data.result.size.last);
           }
@@ -218,7 +222,7 @@ angular
     };
   };
 })
-.directive('balmungPreview', function(pixelRatio) {
+.directive('balmungPreview', function(pixelRatio, socket) {
   return function(scope, element) {
 
     var floor = Math.floor;
@@ -248,9 +252,31 @@ angular
       dstimg.style.width = imgw + 'px';
     }
 
+    var optcount = 0;
+    socket.on(scope, 'optimize', function(data) {
+      if (data.base === file.name) {
+        if (data.type === 'start') {
+          if (optcount === 0) {
+            scope.optimizing = true;
+            scope.$digest();
+          }
+          optcount++;
+        } else {
+          optcount--;
+          if (data.dir + '/' + data.file === dst.path) {
+            dstimg.src = '/content/dst/' + dst.path + '?' + Date.now();
+            scope.optimizing = false;
+            scope.$digest();
+          }
+        }
+      }
+    });
+
+    var minWidth = 625;
+
     element
     .parent().parent()
-    .width(max(imgw*2 + 32, 550));
+    .width(max(imgw*2 + 32, minWidth));
 
     var canvas = document.createElement('canvas');
     canvas.width  = floor((imgw * 2 + pad) * pixelRatio);
@@ -260,8 +286,8 @@ angular
       canvas.style.height = max(300, imgh) + 'px';
     }
     var canvasMargin = 0;
-    if (floor(imgw*2+pad) < 550) {
-      canvasMargin = floor((550 - imgw * 2 - pad) / 2) - 10;
+    if (floor(imgw*2+pad) < minWidth) {
+      canvasMargin = floor((minWidth - imgw * 2 - pad) / 2) - 10;
       canvas.style.marginLeft = canvasMargin + 'px';
     }
 

@@ -1,7 +1,7 @@
 #browse table{font-size:12px;}
-#browse table th.icon{width:32px}
-#browse table th.status{width:48px}
+#browse table th.status{width:60px}
 #browse table th.size,#browse table th.bounds,#browse table td.size,#browse table td.bounds,#browse table td.control{text-align:center}
+#browse table td.status .glyphicon{margin:0 0 0 2px}
 #browse table td.name:hover{background-color:#fdd;cursor:pointer}
 #browse table td.control span{margin:0 2px;cursor:pointer}
 #browse table td.size{cursor:pointer;}
@@ -41,8 +41,21 @@
 .balmung-preview-body .left,.balmung-preview-body .work{text-align:right}
 .balmung-preview-body .bytes .value{font-weight:bold;font-size:18px}
 .balmung-preview-body .bytes .unit{font-size:14px}
+.balmung-preview-body .status{text-align:center}
 .zoomed{position:absolute;z-index:10000;top:0;left:0}
 .growl{position:fixed;top:60px;right:10px;float:right;width:350px}
 .growl-item.ng-enter,.growl-item.ng-leave{-webkit-transition:.2s linear all;-moz-transition:.2s linear all;-o-transition:.2s linear all;transition:.2s linear all}
 .growl-item.ng-enter,.growl-item.ng-leave.ng-leave-active{opacity:0}
 .growl-item.ng-leave,.growl-item.ng-enter.ng-enter-active{opacity:1}
+.spin{-webkit-animation-name:spin;-webkit-animation-duration:1s;-webkit-animation-iteration-count:infinite;-webkit-animation-timing-function:linear}
+@-moz-keyframes spin{0%{-webkit-transform:rotate(0)}
+100%{-webkit-transform:rotate(360deg)}
+}@-webkit-keyframes spin{0%{-webkit-transform:rotate(0)}
+100%{-webkit-transform:rotate(360deg)}
+}@-o-keyframes spin{0%{-webkit-transform:rotate(0)}
+100%{-webkit-transform:rotate(360deg)}
+}@-ms-keyframes spin{0%{-webkit-transform:rotate(0)}
+100%{-webkit-transform:rotate(360deg)}
+}@keyframes spin{0%{-webkit-transform:rotate(0)}
+100%{-webkit-transform:rotate(360deg)}
+}

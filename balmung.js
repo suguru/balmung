@@ -34,6 +34,7 @@ app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 app.set('config', config);
 app.set('io', io);
+io.set('log level', 1);
 
 app.use(express.cookieParser());
 app.use(express.json());

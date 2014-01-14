@@ -29,7 +29,7 @@ angular
       return '0%';
     }
     val = Number(val);
-    val = val * 1000 / 10;
+    val = Math.floor(val * 1000) / 10;
     return val + '%';
   };
 })

@@ -33,7 +33,6 @@ angular
       // remove listener if scope provided
       if (scope) {
         scope.$on('$destroy', function() {
-          console.log("DESTROYED SOCKET LISTENER", name);
           socket.removeListener(name, handler);
         });
       }

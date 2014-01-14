@@ -2,6 +2,7 @@
 'use strict';
 
 var fs = require('fs');
+var http = require('http');
 var express = require('express');
 var program = require('commander');
 var _ = require('lodash');
@@ -26,10 +27,13 @@ loggers.configure(config.logger);
 
 var port = program.port || 7700;
 var app = express();
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 app.set('config', config);
+app.set('io', io);
 
 app.use(express.cookieParser());
 app.use(express.json());
@@ -48,7 +52,7 @@ require('./lib/init')(app, function(err) {
   if (err) {
     loggers.get().error(err.stack);
   } else {
-    app.listen(port, function() {
+    server.listen(port, function() {
       loggers.get().info('Balmung started at', { port: port });
     });
   }

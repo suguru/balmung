@@ -40,7 +40,7 @@ angular
   });
 
 })
-.controller('BalmungBrowseCtrl', function($scope, $http, $routeParams, $location, growl) {
+.controller('BalmungBrowseCtrl', function($scope, $http, $routeParams, $location, growl, socket) {
 
   var dir = $routeParams.dir || '';
 
@@ -63,6 +63,7 @@ angular
     $scope.files = data.files;
     $scope.ratios = data.ratios;
     $scope.settings = data.settings;
+
   })
   .error(function(data, status) {
     // show error on display
@@ -71,18 +72,6 @@ angular
 
   $scope.selectDir = function(dir) {
     $location.path('browse').search({ dir: dir });
-  };
-
-  $scope.optimize = function() {
-
-    $http
-    .post('/api/optimize/dir', { path: dir })
-    .success(function(data) {
-      growl.addInfoMessage('Start optimizing ' + dir, { ttl: 3000 });
-    })
-    .error(function(err) {
-        growl.addErrorMessage('Failed to start optimizing ' + dir + ' ' + err, { ttl: 3000 });
-    });
   };
 
 })

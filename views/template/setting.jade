@@ -1,7 +1,7 @@
 .settings.row
   .col-xs-12(ng-if='settings')
-    .head
-      span.title SETTINGS
+    .head(ng-if='title')
+      span.title(ng-bind='title')
     .setting
       .label.label-primary(balmung-optimize-toggle name='optipng')
       .label.label-param(balmung-slider setting='settings.optipng' min=0 max=7 path='path' settings='settings' name='level')

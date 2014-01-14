@@ -5,7 +5,42 @@ angular
 .directive('balmungSetting', function() {
   return {
     restrict: 'A',
+    scope: {
+      title: '@',
+      settings: '=',
+      path: '='
+    },
+    controller: function($scope, optimizeService) {
+      $scope.optimize = function() {
+        optimizeService($scope.path);
+      };
+    },
     templateUrl: '/template/setting.html'
+  };
+})
+.directive('balmungFileRow', function(socket) {
+  return function(scope) {
+    var file = scope.file;
+    socket.on(scope, 'optimize', function(data) {
+      if (file.path === data.dir + '/' + data.base) {
+        if (data.type === 'start') {
+          file.flags.optimize = true;
+        } else {
+          file.flags.optimize = false;
+        }
+        scope.$digest();
+      }
+    });
+    socket.on(scope, 'resize', function(data) {
+      if (file.path === data.dir + '/' + data.file) {
+        if (data.type === 'start') {
+          file.flags.resize = true;
+        } else {
+          file.flags.resize = false;
+        }
+        scope.$digest();
+      }
+    });
   };
 })
 .directive('balmungSlider', function($compile) {
@@ -71,7 +106,6 @@ angular
             settingService.save($scope.path, $scope.settings, function(err) {
               if (err) {
                 growl.addErrorMessage(err.message);
-              } else {
               }
             });
           });
@@ -83,14 +117,14 @@ angular
 .directive('balmungOptimizeToggle', function() {
   return {
     restrict: 'A',
-    controller: function($scope, $element, $attrs) {
+    controller: function($scope, $element, $attrs, settingService, growl) {
 
       var setting = $scope.settings[$attrs.name];
       $element.text($attrs.name.toUpperCase());
 
       var siblings = $element.siblings();
 
-      var enable = function() {
+      var enable = function(save) {
         delete setting.disabled;
         $element
         .removeClass('label-default')
@@ -98,19 +132,33 @@ angular
         .parent()
         .append(siblings)
         ;
+        if (save !== false) {
+          settingService.save($scope.path, $scope.settings, function(err) {
+            if (err) {
+              growl.addErrorMessage(err.message);
+            }
+          });
+        }
       };
 
-      var disable = function() {
+      var disable = function(save) {
         setting.disabled = true;
         $element
         .removeClass('label-primary')
         .addClass('label-default')
         ;
         siblings.detach();
+        if (save !== false) {
+          settingService.save($scope.path, $scope.settings, function(err) {
+            if (err) {
+              growl.addErrorMessage(err.message);
+            }
+          });
+        }
       };
 
-      if (setting.disbled) {
-        disable();
+      if (setting.disabled) {
+        disable(false);
       }
       $element.on('click', function() {
         if (setting.disabled) {
@@ -122,17 +170,7 @@ angular
     }
   };
 })
-.directive('balmungFileRow', function() {
-  return function(scope, element) {
-    var flags = scope.file.flags || {};
-    if (flags.resize) {
-      element.find('td.status span.glyphicon').addClass('glyphicon-resize-small');
-    } else if (flags.optimize) {
-      element.find('td.status span.glyphicon').addClass('glyphicon-asterisk');
-    }
-  };
-})
-.directive('balmungSizeColumn', function($filter, preview) {
+.directive('balmungSizeColumn', function($filter, preview, socket) {
   return function(scope, element) {
 
     var file = scope.file;
@@ -140,9 +178,10 @@ angular
     var work = file.work[ratio];
     var dst = file.dst[ratio];
 
-    if (dst) {
-      element.find('.bytes').text($filter('filesize')(work.size));
-      var compress = dst.compress;
+    var apply = function(from, to) {
+      element.find('.bytes.from').text($filter('filesize')(from));
+      element.find('.bytes.to').text($filter('filesize')(to));
+      var compress = Math.floor((1 - to / from) * 1000) / 1000;
       var label = element.find('.compress');
       label.text($filter('percentage')(compress));
       if (compress === 0) {
@@ -156,6 +195,23 @@ angular
       } else {
         label.addClass('label-success');
       }
+    };
+
+    socket.on(scope, 'optimize', function(data) {
+      if (dst.path === data.dir + '/' + data.file) {
+        if (data.type === 'start') {
+          element.find('.flag').addClass('glyphicon-asterisk');
+        } else {
+          element.find('.flag').removeClass('glyphicon-asterisk');
+          if (data.result) {
+            apply(data.result.size.origin, data.result.size.last);
+          }
+        }
+      }
+    });
+
+    if (dst) {
+      apply(work.size, dst.size, dst.compress);
     }
     scope.preview = function() {
       preview(file, ratio, work, dst);

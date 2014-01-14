@@ -1,17 +1,26 @@
 #browse table{font-size:12px;}
-#browse table th.icon,#browse table th.status{width:32px}
-#browse table th.size,#browse table th.bounds,#browse table td.size,#browse table td.bounds{text-align:center}
+#browse table th.icon{width:32px}
+#browse table th.status{width:48px}
+#browse table th.size,#browse table th.bounds,#browse table td.size,#browse table td.bounds,#browse table td.control{text-align:center}
+#browse table td.name:hover{background-color:#fdd;cursor:pointer}
+#browse table td.control span{margin:0 2px;cursor:pointer}
+#browse table td.size{cursor:pointer;}
 #browse table td.size span{display:inline-block}
+#browse table td.size span.glyphicon{cursor:pointer}
 #browse table td.size .bytes{width:38px;text-align:right}
+#browse table td.size .glyphicon-arrow-right{margin:0 4px}
 #browse table td.size .compress{width:40px;margin:0 0 0 6px;font-size:10px}
 #browse table td.size .control{margin:0 0 0 4px;}
 #browse table td.size .control .glyphicon{margin:0 0 0 4px}
+#browse table td.size .glyphicon-asterisk{font-size:8px;margin-left:2px}
+#browse table td.size:hover{background-color:#fdd}
 .breadcrumb li a{cursor:pointer}
+.well{background-color:#ddd;border-radius:0}
 .settings .title{color:#000}
 .settings .head{float:left;}
 .settings .head .title{font-size:11px;font-weight:bold;margin-right:10px}
 .settings .setting{float:left;padding-right:2px;}
-.settings .setting .label{border:1px solid #666;border-radius:0;cursor:pointer;}
+.settings .setting .label{border-radius:0;cursor:pointer;}
 .settings .setting .label .value{color:#933;margin-left:4px;font-size:12px;text-decoration:underline}
 .settings .setting .label-param{color:#333;background:#fff;border-left:none;}
 .settings .setting .label-param .tooltip{margin-left:-54px;opacity:1;}

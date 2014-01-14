@@ -2,16 +2,30 @@
 #browse
   table
     font-size 12px
-    th.icon, th.status
+    th.icon
       width 32px
-    th.size, th.bounds, td.size, td.bounds
+    th.status
+      width 48px
+    th.size, th.bounds, td.size, td.bounds, td.control
       text-align center
+    td.name:hover
+      background-color #fdd
+      cursor pointer
+    td.control
+      span
+        margin 0 2px
+        cursor pointer
     td.size
+      cursor pointer
       span
         display inline-block
+      span.glyphicon
+        cursor pointer
       .bytes
         width 38px
         text-align right
+      .glyphicon-arrow-right
+        margin 0 4px
       .compress
         width 40px
         margin 0 0 0 6px
@@ -20,11 +34,21 @@
         margin 0 0 0 4px
         .glyphicon
           margin 0 0 0 4px
+      .glyphicon-asterisk
+        font-size 8px
+        margin-left 2px
+    td.size:hover
+      background-color #fdd
+      
 
 .breadcrumb
   li
     a
       cursor: pointer
+
+.well
+  background-color #ddd
+  border-radius 0px
 
 .settings
   .title
@@ -39,7 +63,6 @@
     float left
     padding-right 2px
     .label
-      border 1px solid #666
       border-radius 0
       cursor pointer
       .value

@@ -50,7 +50,7 @@ angular
 .directive('balmungSlider', function($compile) {
 
   var tooltipTemplate =
-    '<div class="tooltip bottom">' +
+    '<div class="tooltip bottom slider">' +
     '<div class="tooltip-arrow"/>' +
     '<div class="tooltip-inner">' +
     '<form role="form">' +
@@ -97,10 +97,13 @@ angular
         });
 
         $element._tooltip = tooltip;
-        $element.append(tooltip);
+        // $element.append(tooltip);
 
         var offset = $element.find('.value').offset();
+
+        $('body').append(tooltip);
         tooltip.css('left', offset.left);
+        tooltip.css('top', offset.top + 18);
 
         setTimeout(function() {
           $('body').on('click.balmung-slider', function() {
@@ -266,6 +269,8 @@ angular
           if (data.dir + '/' + data.file === dst.path) {
             dstimg.src = '/content/dst/' + dst.path + '?' + Date.now();
             scope.optimizing = false;
+            work.size = data.result.size.origin;
+            dst.size = data.result.size.last;
             scope.$digest();
           }
         }

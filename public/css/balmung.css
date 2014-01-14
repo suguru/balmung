@@ -1,5 +1,5 @@
 #browse table{font-size:12px;}
-#browse table th.status{width:60px}
+#browse table th.status{width:80px}
 #browse table th.size,#browse table th.bounds,#browse table td.size,#browse table td.bounds,#browse table td.control{text-align:center}
 #browse table td.status .glyphicon{margin:0 0 0 2px}
 #browse table td.name:hover{background-color:#fdd;cursor:pointer}
@@ -22,11 +22,7 @@
 .settings .setting{float:left;padding-right:2px;}
 .settings .setting .label{border-radius:0;cursor:pointer;}
 .settings .setting .label .value{color:#933;margin-left:4px;font-size:12px;text-decoration:underline}
-.settings .setting .label-param{color:#333;background:#fff;border-left:none;}
-.settings .setting .label-param .tooltip{margin-left:-54px;opacity:1;}
-.settings .setting .label-param .tooltip form{padding:4px}
-.settings .setting .label-param .tooltip input[type="number"]{width:60px;margin-left:20px;padding:0 8px;text-align:center}
-.settings .setting .label-param .tooltip input[type="range"]{width:100px;margin-top:8px}
+.settings .setting .label-param{color:#333;background:#fff;border-left:none}
 .settings .setting .label:first-child{border-top-left-radius:3px;border-bottom-left-radius:3px}
 .settings .setting .label:last-child{border-top-right-radius:3px;border-bottom-right-radius:3px}
 .settings .control .glyphicon{padding:3px;cursor:pointer}
@@ -43,6 +39,10 @@
 .balmung-preview-body .bytes .unit{font-size:14px}
 .balmung-preview-body .status{text-align:center}
 .zoomed{position:absolute;z-index:10000;top:0;left:0}
+.tooltip.slider{z-index:10010;margin-left:-54px;opacity:1;}
+.tooltip.slider form{padding:4px;}
+.tooltip.slider form input[type="number"]{width:60px;margin-left:20px;padding:0 8px;text-align:center}
+.tooltip.slider form input[type="range"]{width:100px;margin-top:8px}
 .growl{position:fixed;top:60px;right:10px;float:right;width:350px}
 .growl-item.ng-enter,.growl-item.ng-leave{-webkit-transition:.2s linear all;-moz-transition:.2s linear all;-o-transition:.2s linear all;transition:.2s linear all}
 .growl-item.ng-enter,.growl-item.ng-leave.ng-leave-active{opacity:0}

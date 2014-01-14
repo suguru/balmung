@@ -3,7 +3,7 @@
   table
     font-size 12px
     th.status
-      width 60px
+      width 80px
     th.size, th.bounds, td.size, td.bounds, td.control
       text-align center
     td.status
@@ -74,19 +74,6 @@
       color #333
       background #fff
       border-left none
-      .tooltip
-        margin-left -54px
-        opacity 1
-        form
-          padding 4px
-        input[type="number"]
-          width 60px
-          margin-left 20px
-          padding 0 8px
-          text-align center
-        input[type="range"]
-          width 100px
-          margin-top 8px
     .label:first-child
       border-top-left-radius 3px
       border-bottom-left-radius 3px
@@ -141,6 +128,20 @@
   z-index 10000
   top 0px
   left 0px
+.tooltip.slider
+  z-index 10010
+  margin-left -54px
+  opacity 1
+  form
+    padding 4px
+    input[type="number"]
+      width 60px
+      margin-left 20px
+      padding 0 8px
+      text-align center
+    input[type="range"]
+      width 100px
+      margin-top 8px
 
 
 /**

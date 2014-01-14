@@ -29,6 +29,7 @@
       tr(ng-repeat='file in files', balmung-file-row)
         td.status
           span.glyphicon.glyphicon-picture
+          span.glyphicon.glyphicon-cog(ng-if='file.settings')
           span.glyphicon.glyphicon-resize-full(ng-if='file.flags.resize')
           span.glyphicon(ng-if='!file.flags.resize')
           span.glyphicon.glyphicon-asterisk(ng-if='file.flags.optimize')
@@ -37,8 +38,6 @@
           span(ng-bind='file.name')
         td.control
           span.glyphicon.glyphicon-repeat(tooltip='Optimize', ng-click='optimize()')
-          span.glyphicon.glyphicon-cog(ng-if='file.settings', tooltip='Setting')
-          span.glyphicon(ng-if='!file.settings')
         td.bounds
           span(ng-bind='file.width')
           span x

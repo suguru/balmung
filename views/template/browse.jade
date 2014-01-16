@@ -4,8 +4,9 @@
     li
       a(ng-click='selectDir("/")') root
     li(ng-repeat='p in paths')
-      a(ng-bind='p.label', ng-click='selectDir(p.path)')
-  .well.well-sm(balmung-setting, settings='settings', path='path', title='SETTINGS', optimize-icon='true')
+      a(ng-bind='p.label' ng-click='selectDir(p.path)')
+
+  .well.well-sm(balmung-setting settings='settings' path='path', title='SETTINGS' optimize-icon='true' confirm-icon='true')
 
   table.table
     thead
@@ -21,21 +22,21 @@
         th.name Name
         th.control
         th.bounds Size
-        th.size(ng-repeat='ratio in ratios', ng-bind='ratio.toFixed(1)')
-      tr(ng-repeat='file in files', balmung-file-row)
+        th.size(ng-repeat='ratio in ratios' ng-bind='ratio|number:1')
+      tr(ng-repeat='file in files' balmung-file-row)
         td.name
           span.glyphicon.glyphicon-picture
           span.glyphicon.glyphicon-cog(ng-if='file.settings')
           span(ng-bind='file.name')
         td.control
-          span.glyphicon.glyphicon-repeat(tooltip='Optimize', ng-click='optimize()')
+          span.glyphicon.glyphicon-repeat(tooltip='Optimize' ng-click='optimize()')
         td.bounds
           span(ng-bind='file.width')
           span x
           span(ng-bind='file.height')
-        td.size(ng-repeat='ratio in ratios', balmung-size-column, ng-click='preview()')
+        td.size(ng-repeat='ratio in ratios' balmung-size-column, ng-click='preview()')
           span.bytes.from(ng-bind='from|filesize')
           span.glyphicon.glyphicon-arrow-right
           span.bytes.to(ng-bind='to|filesize')
-          span.compress.label(ng-bind='compress|percentage', ng-class='{ "label-default": compress === 0, "label-danger": compress < 0.1, "label-warning": compress < 0.3, "label-success": compress >= 0.3 }')
+          span.compress.label(ng-bind='compress|percentage' ng-class='{ "label-default": compress === 0, "label-danger": compress < 0.1, "label-warning": compress < 0.3, "label-success": compress >= 0.3 }')
           span.glyphicon.glyphicon-asterisk(ng-class='{spin: optimizing}')

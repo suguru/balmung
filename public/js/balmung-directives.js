@@ -9,11 +9,15 @@ angular
       title: '@',
       settings: '=',
       path: '=',
-      optimizeIcon: '='
+      optimizeIcon: '=',
+      confirmIcon: '='
     },
-    controller: function($scope, optimizeService) {
+    controller: function($scope, $location, optimizeService) {
       $scope.optimize = function() {
         optimizeService.dir($scope.path);
+      };
+      $scope.confirm = function() {
+        $location.path('confirm').search({ dir: $scope.path });
       };
     },
     templateUrl: '/template/setting.html'

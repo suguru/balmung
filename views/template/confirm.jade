@@ -1,11 +1,24 @@
-#browse
+#confirm
 
-  ol.breadcrumb
-    li
-      a(ng-bind='path')
+  ul.pager
+    li.previous
+      a(href='#' ng-click='browse()')
+        span.glyphicon.glyphicon-arrow-left
+        span Back
+    li.path(ng-bind='path')
 
   // .well.well-sm(balmung-setting, settings='settings', path='path', title='SETTINGS', optimize-icon='true')
-
+  .ratio-control
+    .btn-group
+      button.btn.btn-default(ng-repeat='r in ratios' type='button', ng-bind='r | number:1' ng-class='{ "btn-default": r != ratio, "btn-success": r == ratio }', ng-click='changeRatio(r)') 
+    .btn-group
+      button.btn.btn-default(ng-repeat='b in backgrounds' type='button' ng-bind='b' ng-class='{ "btn-default": b != background, "btn-success": b == background }' ng-click='changeBackground(b)')
   // Ratio changer
-  ul
-    li(ng-repeat='file in files')
+  ul.files
+    li.file(ng-repeat='file in files')
+      .name(ng-bind='file.path')
+      .image(class='{{background}}')
+        a(href='/content/work/{{file.work[ratio].path}}' target='_blank')
+          img(src='/content/work/{{file.work[ratio].path}}')
+        a(href='/content/dst/{{file.dst[ratio].path}}' target='_blank')
+          img(src='/content/dst/{{file.dst[ratio].path}}')

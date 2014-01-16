@@ -73,10 +73,6 @@ angular
     console.error(status, data);
   });
 
-  $scope.showImages = function(dir) {
-    $location.path('confirm').search({ dir: dir });
-  };
-
   $scope.selectDir = function(dir) {
     $location.path('browse').search({ dir: dir });
   };
@@ -87,7 +83,7 @@ angular
   var dir = $routeParams.dir || '';
 
   $http
-  .post('/api/browse/list', { path: dir })
+  .post('/api/browse/list', { path: dir, collect: true })
   .success(function(data) {
     $scope.path = data.path;
     $scope.paths = [];
@@ -101,16 +97,26 @@ angular
       p += '/';
     });
 
-    $scope.dirs = data.dirs;
     $scope.files = data.files;
+    $scope.ratio = data.ratios[0];
     $scope.ratios = data.ratios;
     $scope.settings = data.settings;
+    $scope.background = 'mesh';
+    $scope.backgrounds = ['mesh', 'white', 'gray', 'black', 'red', 'green', 'blue'];
 
   })
   .error(function(data, status) {
     // show error on display
     console.error(status, data);
   });
+
+  $scope.changeRatio = function(ratio) {
+    $scope.ratio = ratio;
+  };
+
+  $scope.changeBackground = function(bg) {
+    $scope.background = bg;
+  };
 
   $scope.browse = function() {
     $location.path('browse').search({ dir: dir });

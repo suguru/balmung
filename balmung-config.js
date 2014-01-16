@@ -21,7 +21,7 @@ module.exports = {
     ratio: [1.0, 1.3, 1.5, 2.0, 3.0],
     // base ratio of images in source directory
     base: 3.0,
-    // unsharp option after resized
+    // unsharp option after resizing
     unsharp: '2x1.4+0.5+0',
     // resizing concurrency
     concurrency: 4
@@ -76,10 +76,6 @@ module.exports = {
   // gifsicle
   gifsicle: {
     level: 3 // 1 - 3
-  },
-
-  // spritesmith
-  spritesmith: {
   },
 
   logger: {

@@ -21,11 +21,11 @@ html(ng-app='balmung')
     title Balmung - Image Optimizer
   body
     header
-      .navbar.navbar-default.navbar-static-top(role='navigation', ng-controller='BalmungNavCtrl')
+      .navbar.navbar-default.navbar-static-top(role='navigation' ng-controller='BalmungNavCtrl')
         .navbar-header
           a.navbar-brand(href='/') Balmung
           ul.nav.navbar-nav
-            li(ng-repeat='item in items')
-              a(href='{{item.link}}', ng-bind='item.label')
+            li(ng-repeat='item in items' ng-class='{ active: item.active }')
+              a(href='{{item.link}}' ng-bind='item.label')
     block content
     div(growl)

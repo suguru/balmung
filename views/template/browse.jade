@@ -43,8 +43,8 @@
           span x
           span(ng-bind='file.height')
         td.size(ng-repeat='ratio in ratios', balmung-size-column, ng-click='preview()')
-          span.bytes.from
+          span.bytes.from(ng-bind='from|filesize')
           span.glyphicon.glyphicon-arrow-right
-          span.bytes.to
-          span.compress.label
-          span.glyphicon.flag
+          span.bytes.to(ng-bind='to|filesize')
+          span.compress.label(ng-bind='compress|percentage', ng-class='{ "label-default": compress === 0, "label-danger": compress < 0.1, "label-warning": compress < 0.3, "label-success": compress >= 0.3 }')
+          span.glyphicon.glyphicon-asterisk.spin(ng-if='optimizing')

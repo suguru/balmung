@@ -33,8 +33,7 @@ angular
     var path = $location.path();
     items.forEach(function(item) {
       if (item.link === '#' + path) {
-        $element.find('li').removeClass('active');
-        $element.find('a[href="#' + path +'"]').parent().addClass('active');
+        item.active = true;
       }
     });
   });

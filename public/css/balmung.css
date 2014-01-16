@@ -14,6 +14,8 @@
 #browse table td.size .spin{color:#000}
 #browse table td.size:hover{background-color:#fdd}
 .breadcrumb li a{cursor:pointer}
+.optimize-status{position:absolute;top:15px;right:100px;list-style:none;z-index:2000;}
+.optimize-status li{float:left;width:20px;text-align:center}
 .well{background-color:#ddd;border-radius:0}
 .settings .title{color:#000}
 .settings .head{float:left;}

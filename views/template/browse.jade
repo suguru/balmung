@@ -1,5 +1,9 @@
 #browse
 
+  ul.optimize-status(balmung-optimize-status)
+    li(ng-repeat='item in list', tooltip='{{item.dir + "/" + item.file}}', tooltip-placement='bottom')
+      span.glyphicon.glyphicon-asterisk.spin
+
   ol.breadcrumb
     li
       a(ng-click='selectDir("/")') root

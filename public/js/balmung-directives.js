@@ -1,4 +1,4 @@
-/* global angular */
+/* global angular, _ */
 'use strict';
 angular
 .module('balmung')
@@ -29,6 +29,26 @@ angular
     scope.optimize = function() {
       optimizeService.file(file.path);
     };
+  };
+})
+.directive('balmungOptimizeStatus', function(socket) {
+  return {
+    restrict: 'A',
+    scope: true,
+    controller: function($scope) {
+      $scope.list = [];
+      socket.on($scope, 'optimize', function(data) {
+        if (data.type === 'start') {
+          $scope.list.push(data);
+          $scope.$apply();
+        } else {
+          $scope.list = _.remove($scope.list, function(item) {
+            return item.dir === data.dir && item.file === data.dir;
+          });
+          $scope.$apply();
+        }
+      });
+    }
   };
 })
 .directive('balmungSlider', function($compile) {

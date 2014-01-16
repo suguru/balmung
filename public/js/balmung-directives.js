@@ -1,4 +1,4 @@
-/* global angular, _ */
+/* global angular */
 'use strict';
 angular
 .module('balmung')
@@ -42,9 +42,7 @@ angular
           $scope.list.push(data);
           $scope.$apply();
         } else {
-          $scope.list = _.remove($scope.list, function(item) {
-            return item.dir === data.dir && item.file === data.dir;
-          });
+          $scope.list.shift();
           $scope.$apply();
         }
       });
@@ -191,7 +189,7 @@ angular
     var dst = file.dst[ratio];
 
     socket.on(scope, 'optimize', function(data) {
-      if (dst.path === data.dir + '/' + data.file) {
+      if (dst && dst.path === data.dir + '/' + data.file) {
         if (data.type === 'start') {
           scope.optimizing = true;
         } else {

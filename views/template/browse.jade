@@ -1,8 +1,7 @@
 #browse
 
-  ul.optimize-status(balmung-optimize-status)
-    li(ng-repeat='item in list', tooltip='{{item.dir + "/" + item.file}}', tooltip-placement='bottom')
-      span.glyphicon.glyphicon-asterisk.spin
+  .optimize-status(balmung-optimize-status)
+    span.glyphicon(ng-class='{ "glyphicon-asterisk": list.length > 0, spin: list.length > 0 }' tooltip='{{list[0] && list[0].file}}' tooltip-placement='left')
 
   ol.breadcrumb
     li

@@ -19,7 +19,6 @@
     "jpegtran-bin": "~0.2.2",
     "pngquant-bin": "~0.1.5",
     "gifsicle": "~0.1.4",
-    "spritesmith": "~0.17.1",
     "image-size": "~0.1.16",
     "proteus-logger": "~1.1.9",
     "imagemagick": "~0.1.3",

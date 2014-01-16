@@ -24,6 +24,7 @@ html(ng-app='balmung')
       .navbar.navbar-default.navbar-static-top(role='navigation' ng-controller='BalmungNavCtrl')
         .navbar-header
           a.navbar-brand(href='/') Balmung
+        .navbar-collapse
           ul.nav.navbar-nav
             li(ng-repeat='item in items' ng-class='{ active: item.active }')
               a(href='{{item.link}}' ng-bind='item.label')

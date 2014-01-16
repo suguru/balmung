@@ -15,15 +15,14 @@
   .row(ng-if='settings')
     .well.well-sm(balmung-setting, settings='settings', path='file.path')
 
-  .row
+  .row.conversion
     .col-xs-5.left
       .bytes
         span.value {{work.size | number}}
         span.unit  bytes
     .col-xs-2.center
       .arrow
-        span.glyphicon.glyphicon-arrow-right
-        span.glyphicon.glyphicon-repeat.spin(ng-if='optimizing')
+        span.glyphicon(ng-class='{"glyphicon-arrow-right":!optimizing, "glyphicon-repeat":optimizing, spin:optimizing}')
       .compress {{(1 - dst.size / work.size) | percentage}}
     .col-xs-5.right
       .bytes

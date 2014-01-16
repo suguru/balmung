@@ -5,36 +5,27 @@
       a(ng-click='selectDir("/")') root
     li(ng-repeat='p in paths')
       a(ng-bind='p.label', ng-click='selectDir(p.path)')
-
   .well.well-sm(balmung-setting, settings='settings', path='path', title='SETTINGS', optimize-icon='true')
 
   table.table
     thead
       tr(ng-if='dirs.length > 0')
-        th.status
         th.name(colspan='{{ratios.length+4}}') Name
     tbody
       tr(ng-repeat='dir in dirs')
-        td.status
-          span.glyphicon.glyphicon-folder-close
-          span.glyphicon.glyphicon-cog(ng-if='dir.settings', tooltip='Custom settings')
         td.name(colspan='{{ratios.length=2}}' ng-click='selectDir(path + "/" + dir.name)')
+          span.glyphicon.glyphicon-folder-close
+          span.glyphicon.glyphicon-cog(ng-if='dir.settings')
           span(ng-bind='dir.name')
       tr(ng-if='files.length > 0')
-        th.status
         th.name Name
         th.control
         th.bounds Size
         th.size(ng-repeat='ratio in ratios', ng-bind='ratio.toFixed(1)')
       tr(ng-repeat='file in files', balmung-file-row)
-        td.status
+        td.name
           span.glyphicon.glyphicon-picture
           span.glyphicon.glyphicon-cog(ng-if='file.settings')
-          span.glyphicon.glyphicon-resize-full(ng-if='file.flags.resize')
-          span.glyphicon(ng-if='!file.flags.resize')
-          span.glyphicon.glyphicon-asterisk(ng-if='file.flags.optimize')
-          span.glyphicon(ng-if='!file.flags.optimize')
-        td.name
           span(ng-bind='file.name')
         td.control
           span.glyphicon.glyphicon-repeat(tooltip='Optimize', ng-click='optimize()')
@@ -47,4 +38,4 @@
           span.glyphicon.glyphicon-arrow-right
           span.bytes.to(ng-bind='to|filesize')
           span.compress.label(ng-bind='compress|percentage', ng-class='{ "label-default": compress === 0, "label-danger": compress < 0.1, "label-warning": compress < 0.3, "label-success": compress >= 0.3 }')
-          span.glyphicon.glyphicon-asterisk.spin(ng-if='optimizing')
+          span.glyphicon.glyphicon-asterisk(ng-class='{spin: optimizing}')

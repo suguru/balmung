@@ -22,26 +22,6 @@ angular
 .directive('balmungFileRow', function(socket, optimizeService) {
   return function(scope) {
     var file = scope.file;
-    socket.on(scope, 'optimize', function(data) {
-      if (file.path === data.dir + '/' + data.base) {
-        if (data.type === 'start') {
-          file.flags.optimize = true;
-        } else {
-          file.flags.optimize = false;
-        }
-        scope.$digest();
-      }
-    });
-    socket.on(scope, 'resize', function(data) {
-      if (file.path === data.dir + '/' + data.file) {
-        if (data.type === 'start') {
-          file.flags.resize = true;
-        } else {
-          file.flags.resize = false;
-        }
-        scope.$digest();
-      }
-    });
     scope.optimize = function() {
       optimizeService.file(file.path);
     };
@@ -179,35 +159,15 @@ angular
 })
 .directive('balmungSizeColumn', function($filter, preview, socket) {
 
-  return function(scope, element) {
+  return function(scope) {
 
     var file = scope.file;
     var ratio = Number(scope.ratio);
     var work = file.work[ratio];
     var dst = file.dst[ratio];
 
-    var apply = function(from, to) {
-      /*
-         var compress = Math.floor((1 - to / from) * 1000) / 1000;
-         var label = $element.find('.compress');
-         label.text($filter('percentage')(compress));
-         if (compress === 0) {
-         label.addClass('label-default');
-         } else if (compress < 0.1) {
-         label.addClass('label-danger');
-         } else if (compress < 0.3) {
-         label.addClass('label-warning');
-         } else if (compress < 0.5) {
-         label.addClass('label-primary');
-         } else {
-         label.addClass('label-success');
-         }
-         */
-    };
-
     socket.on(scope, 'optimize', function(data) {
       if (dst.path === data.dir + '/' + data.file) {
-        console.log("YAY", data.file);
         if (data.type === 'start') {
           scope.optimizing = true;
         } else {
@@ -224,7 +184,6 @@ angular
     scope.from = work && work.size || 0;
     scope.to = dst && dst.size || 0;
     scope.compress = (1-(scope.to/scope.from));
-    console.log(scope.compress);
 
     scope.preview = function() {
       preview(file, ratio, work, dst);

@@ -11,8 +11,8 @@ var pkginfo = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
 program
 .version(pkginfo.version)
-.option('-p, --port', 'Port to listen web')
-.option('-c, --config', 'Config file path')
+.option('-p, --port', 'port to listen web')
+.option('-c, --config', 'path of the config file')
 .parse(process.argv)
 ;
 

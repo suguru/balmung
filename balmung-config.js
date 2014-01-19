@@ -15,6 +15,19 @@ module.exports = {
   // Settings to be written
   settings: './content/balmung-settings.json',
 
+  repository: {
+    // Git
+    /*
+    type: 'git',
+    url: 'http://github.com/suguru/content.git'
+    */
+    // SVN
+    /*
+    type: 'svn',
+    url: 'http://svn-host/
+    */
+  },
+
   // resize default
   resize: {
     // ratio list to be generated

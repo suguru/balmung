@@ -23,7 +23,7 @@ angular
     templateUrl: '/template/setting.html'
   };
 })
-.directive('balmungFileRow', function(socket, optimizeService) {
+.directive('balmungFileRow', function(optimizeService) {
   return function(scope) {
     var file = scope.file;
     scope.optimize = function() {
@@ -189,7 +189,7 @@ angular
     var dst = file.dst[ratio];
 
     socket.on(scope, 'optimize', function(data) {
-      if (dst && dst.path === data.dir + '/' + data.file) {
+      if (dst && dst.path === data.dst) {
         if (data.type === 'start') {
           scope.optimizing = true;
         } else {
@@ -244,7 +244,7 @@ angular
 
     var optcount = 0;
     socket.on(scope, 'optimize', function(data) {
-      if (data.base === file.name) {
+      if (data.path === file.path) {
         if (data.type === 'start') {
           if (optcount === 0) {
             scope.optimizing = true;
@@ -253,7 +253,7 @@ angular
           optcount++;
         } else {
           optcount--;
-          if (data.dir + '/' + data.file === dst.path) {
+          if (data.dst === dst.path) {
             dstimg.src = '/content/dst/' + dst.path + '?' + Date.now();
             scope.optimizing = false;
             work.size = data.result.size.origin;

@@ -41,7 +41,7 @@ module.exports = function (grunt) {
     express: {
       dev: {
         options: {
-          script: './balmung.js',
+          script: './balmung-server.js',
           output: 'Balmung started.+'
         }
       }

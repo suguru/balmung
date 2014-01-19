@@ -4,11 +4,11 @@
 var fs = require('fs');
 var http = require('http');
 var express = require('express');
-var program = require('commander');
 var _ = require('lodash');
 var loggers = require('proteus-logger');
 var pkginfo = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
+var program = require('commander');
 program
 .version(pkginfo.version)
 .option('-p, --port', 'port to listen web')
@@ -23,12 +23,21 @@ if (program.config) {
   });
 }
 // configure logger
-loggers.configure(config.logger);
+if (config.logger) {
+  loggers.configure(config.logger);
+}
 
 var port = program.port || 7700;
 var app = express();
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
+
+if (process.env.NODE_ENV === 'test') {
+  // disable listening
+  port = 0;
+  // disable logger
+  process.env.DISABLE_PROTEUS_LOGGER = true;
+}
 
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
@@ -53,9 +62,11 @@ require('./lib/init')(app, function(err) {
   if (err) {
     loggers.get().error(err.stack);
   } else {
-    server.listen(port, function() {
-      loggers.get().info('Balmung started at', { port: port });
-    });
+    if (port > 0) {
+      server.listen(port, function() {
+        loggers.get().info('Balmung started at', { port: port });
+      });
+    }
   }
 });
 

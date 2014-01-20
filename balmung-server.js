@@ -6,7 +6,7 @@ var http = require('http');
 var express = require('express');
 var _ = require('lodash');
 var loggers = require('proteus-logger');
-var pkginfo = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+var pkginfo = JSON.parse(fs.readFileSync(require('path').join(__dirname, 'package.json'), 'utf8'));
 
 var program = require('commander');
 program

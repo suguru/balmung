@@ -26,6 +26,15 @@ module.exports = function(opts) {
     loggers.configure(config.logger);
   }
 
+  var dirs = require('./lib/dirs');
+  // same working directory
+  config.work = config.dst;
+  // configure directories
+  ['src', 'dst', 'work'].forEach(function(name) {
+    dirs.add(name, config[name]);
+  });
+
+  // settings
   var Resizer = require('./lib/resize');
   var Optimizer = require('./lib/optimize');
   var settings = require('./lib/settings');
@@ -33,6 +42,8 @@ module.exports = function(opts) {
   return {
     resizer: new Resizer(config),
     optimizer: new Optimizer(config),
-    settings: settings
+    settings: settings,
+    config: config,
+    dirs: dirs
   };
 };

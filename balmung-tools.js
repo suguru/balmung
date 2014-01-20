@@ -9,9 +9,16 @@ module.exports = function(opts) {
 
   var config = require('./balmung-config.js');
   if (opts.config) {
-    _.each(require(opts.config), function(value, name) {
-      config[name] = value;
-    });
+
+    if (typeof opts.config === 'string') {
+      _.each(require(opts.config), function(value, name) {
+        config[name] = value;
+      });
+    } else {
+      _.each(opts.config, function(value, name) {
+        config[name] = value;
+      });
+    }
   }
 
   // configure logger
@@ -20,7 +27,7 @@ module.exports = function(opts) {
   }
 
   var Resizer = require('./lib/resize');
-  var Optimizer = require('./lib/optimizer');
+  var Optimizer = require('./lib/optimize');
   var settings = require('./lib/settings');
 
   return {

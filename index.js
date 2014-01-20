@@ -12,3 +12,8 @@ exports.createServer = function() {
 exports.createTools = function(option) {
   return require('./balmung-tools')(option);
 };
+
+/**
+ * Export express
+ */
+exports.express = require('express');

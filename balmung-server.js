@@ -12,7 +12,7 @@ var program = require('commander');
 program
 .version(pkginfo.version)
 .option('-p, --port', 'port to listen web')
-.option('-c, --config', 'path of the config file')
+.option('-c, --config <path>', 'path of the config file')
 .parse(process.argv)
 ;
 

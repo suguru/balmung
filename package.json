@@ -1,6 +1,6 @@
 {
   "name": "balmung",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Web tools for optimizing images",
   "main": "balmung.js",
   "bin": "./bin/balmung",

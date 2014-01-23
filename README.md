@@ -84,7 +84,15 @@ module.exports = {
     // unsharp option after resizing
     unsharp: '2x1.4+0.5+0',
     // resizing concurrency
-    concurrency: 4
+    concurrency: 4,
+    // Replace patterns of directory and file name.
+    // {dirname} - base directory name
+    // {ratio} - pixel ratio
+    // {ratiox10} - pixel ratio * 10
+    // {basename} - base name of the file. ex) example.png -> example
+    // {extname} - extension name of the file. ex) example.png -> .png
+    dirname: '{dirname}',
+    filename: '{basename}_{ratiox10}{extname}'
   },
 
   // File name resolver for resizing

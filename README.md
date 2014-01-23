@@ -95,15 +95,6 @@ module.exports = {
     filename: '{basename}_{ratiox10}{extname}'
   },
 
-  // File name resolver for resizing
-  // Default is xyz_10.png, xyz_20.png
-  resizeNameResolver: function(filename, ratio) {
-    var ext = path.extname(filename);
-    var base = path.basename(filename, ext);
-    ratio = Math.floor(ratio*10);
-    return base + '_' + ratio + ext;
-  },
-
   // optimizer
   optimize: {
     // optimizing concurrency

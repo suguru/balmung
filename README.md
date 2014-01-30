@@ -66,14 +66,18 @@ You can customize balmung with simple javascript file.
 ```js
 module.exports = {
 
-  // Source directory
-  src: './content/src',
   // Working directory
-  work: './content/work',
-  // Destination directory to write final files
-  dst: './content/dst',
+  datadir: './content',
   // Settings to be written
   settings: './content/balmung-settings.json',
+
+  /* Repository settings to get contents from VCS
+  repository: {
+    type: 'git', // git or svn
+    url: 'https://github.com/xyz/xyz.git', // URL of the repository
+    update: 60000 // update interval (millisec)
+  },
+  */
 
   // resize default
   resize: {

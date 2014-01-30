@@ -7,6 +7,10 @@
   "scripts": {
     "test": "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/suguru/balmung.git"
+  },
   "author": "Suguru Namura (https://github.com/suguru/)",
   "license": "MIT",
   "dependencies": {

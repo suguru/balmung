@@ -1,32 +1,26 @@
 
-var path = require('path');
-
 /**
  * Default configuration for balmung
  */
 module.exports = {
 
-  // Source directory
-  src: './content/src',
-  // Working directory
-  work: './content/work',
-  // Destination directory to write final files
-  dst: './content/dst',
+  datadir: './content',
+
   // Settings to be written
   settings: './content/balmung-settings.json',
 
+  /*
   repository: {
     // Git
-    /*
     type: 'git',
     url: 'http://github.com/suguru/content.git'
-    */
     // SVN
-    /*
     type: 'svn',
     url: 'http://svn-host/
-    */
+
+    update: 60000 // update interval (millisec)
   },
+  */
 
   // resize default
   resize: {

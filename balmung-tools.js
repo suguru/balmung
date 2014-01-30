@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var path = require('path');
 var loggers = require('proteus-logger');
 
 module.exports = function(opts) {
@@ -27,12 +28,12 @@ module.exports = function(opts) {
   }
 
   var dirs = require('./lib/dirs');
-  // same working directory
-  config.work = config.dst;
+  var datadir = config.datadir;
   // configure directories
-  ['src', 'dst', 'work'].forEach(function(name) {
-    dirs.add(name, config[name]);
-  });
+  dirs.add('src', path.join(datadir, 'src'));
+  // work and dst are same in tools
+  dirs.add('work', path.join(datadir, 'dst'));
+  dirs.add('dst', path.join(datadir, 'dst'));
 
   // settings
   var Resizer = require('./lib/resize');

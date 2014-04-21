@@ -29,11 +29,20 @@ module.exports = function(opts) {
 
   var dirs = require('./lib/dirs');
   var datadir = config.datadir;
-  // configure directories
-  dirs.add('src', path.join(datadir, 'src'));
-  // work and dst are same in tools
-  dirs.add('work', path.join(datadir, 'dst'));
-  dirs.add('dst', path.join(datadir, 'dst'));
+  var srcdir = config.src;
+  var dstdir = config.dst;
+  if (srcdir && dstdir) {
+    config.work = dstdir;
+    ['src', 'dst', 'work'].forEach(function(name){
+      dirs.add(name, config[name]);
+    });
+  } else {
+    // configure directories
+    dirs.add('src', path.join(datadir, 'src'));
+    // work and dst are same in tools
+    dirs.add('work', path.join(datadir, 'dst'));
+    dirs.add('dst', path.join(datadir, 'dst'));
+  }
 
   // settings
   var Resizer = require('./lib/resize');

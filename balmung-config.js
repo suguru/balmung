@@ -29,9 +29,14 @@ module.exports = {
     // base ratio of images in source directory
     base: 3.0,
     // unsharp option after resizing
-    unsharp: '2x1.4+0.5+0',
+    unsharp: {
+      radius: 2,
+      sigma: 1.4,
+      amount: 0.5,
+      threshold: 0
+    },
     // resizing concurrency
-    concurrency: 4,
+    concurrency: 1,
     // Replace patterns of directory and file name.
     // {dirname} - base directory name
     // {ratio} - pixel ratio

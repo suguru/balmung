@@ -25,10 +25,10 @@
     "gifsicle": "~0.1.4",
     "image-size": "~0.1.16",
     "proteus-logger": "~1.1.9",
-    "imagemagick": "~0.1.3",
     "mkdirp": "~0.3.5",
     "node-zopfli": "~1.0.3",
-    "socket.io": "~0.9.16"
+    "socket.io": "~0.9.16",
+    "gm": "^1.14.2"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
